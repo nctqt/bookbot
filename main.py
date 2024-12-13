@@ -19,16 +19,30 @@ def character_count(text):
 
     return char_count
 
+def sort_on(dict):
+    return dict["number"]
+
+def dict_sort(chars):
+    alpha_dict = {}
+    for key in chars:
+        if key.isalpha():
+            alpha_dict[key] = chars[key]
+    new_list = []
+    for key, value in alpha_dict.items():
+        new_list.append({"alpha": key, "number": value})
+    new_list.sort(reverse=True, key=sort_on)
+    return new_list
+
 def main():
     book_path = "books/frankenstein.txt"
     book_text = get_text(book_path)
-
     total_words = word_count(book_text)
-    print(f"There are {total_words} words in the file.")
-    
     char_dict = character_count(book_text)
-    print(char_dict)
 
-
+    print(f"--- Begin report of {book_path} ---")
+    print(f"There are {total_words} words in the text.\n")
+    sorted_count = dict_sort(char_dict)
+    for item in sorted_count:
+        print(f"The {item["alpha"]} character was found {item["number"]} times.")
 
 main()
