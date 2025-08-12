@@ -1,12 +1,16 @@
 #!/opt/homebrew/bin/python3
 
+import sys
+from stats import word_count
+
+if len(sys.argv) != 2:
+    print(f"Usage: python3 main.py <path_to_book>")
+    sys.exit(1)
+
 def get_text(path):
     with open(path) as f:
         text = f.read()
     return text
-
-def word_count(text):
-    return len(text.split())
 
 def character_count(text):
     char_count = {}
@@ -34,15 +38,15 @@ def dict_sort(chars):
     return new_list
 
 def main():
-    book_path = "books/frankenstein.txt"
+    book_path = sys.argv[1]
     book_text = get_text(book_path)
     total_words = word_count(book_text)
     char_dict = character_count(book_text)
 
     print(f"--- Begin report of {book_path} ---")
-    print(f"There are {total_words} words in the text.\n")
+    print(f"There are {total_words} words found in the document.\n")
     sorted_count = dict_sort(char_dict)
     for item in sorted_count:
-        print(f"The {item["alpha"]} character was found {item["number"]} times.")
+        print(f"{item["alpha"]}: {item["number"]}")
 
 main()
